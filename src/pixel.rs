@@ -25,7 +25,7 @@ pub struct Pixel {
 /// assert_eq!(None, iter.next());
 /// ```
 #[derive(Debug, Clone)]
-pub struct PixelIter {
+pub struct IntoIter {
     pixel: Pixel,
     curr: u8
 }
@@ -44,7 +44,7 @@ pub struct PixelIter {
 /// assert_eq!(Some(40_u16), iter.next());
 /// assert_eq!(None, iter.next());
 #[derive(Debug, Clone)]
-pub struct PixelRefIter<'a> {
+pub struct Iter<'a> {
     pixel: &'a Pixel,
     curr: u8
 }
@@ -102,8 +102,8 @@ impl Pixel {
 
     /// Creates an iterator over a reference to the slice. The iterator produces a reference to the
     /// red, green, blue then alpha component of this pixel, then returns None.
-    pub fn iter(&self) -> PixelRefIter {
-        PixelRefIter{pixel: self, curr: 0}
+    pub fn iter(&self) -> Iter {
+        Iter {pixel: self, curr: 0}
     }
 }
 
@@ -124,7 +124,7 @@ impl Into<[u16; 4]> for Pixel {
     }
 }
 
-impl Iterator for PixelIter {
+impl Iterator for IntoIter {
     type Item = u16;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -138,15 +138,15 @@ impl Iterator for PixelIter {
     }
 }
 
-impl ExactSizeIterator for PixelIter {
+impl ExactSizeIterator for IntoIter {
     fn len(&self) -> usize {
         4 - self.curr as usize
     }
 }
 
-impl FusedIterator for PixelIter {}
+impl FusedIterator for IntoIter {}
 
-impl <'a> Iterator for PixelRefIter<'a> {
+impl <'a> Iterator for Iter<'a> {
     type Item = &'a u16;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -160,20 +160,20 @@ impl <'a> Iterator for PixelRefIter<'a> {
     }
 }
 
-impl <'a> ExactSizeIterator for PixelRefIter<'a> {
+impl <'a> ExactSizeIterator for Iter<'a> {
     fn len(&self) -> usize {
         4 - self.curr as usize
     }
 }
 
-impl <'a> FusedIterator for PixelRefIter<'a> {}
+impl <'a> FusedIterator for Iter<'a> {}
 
 impl IntoIterator for Pixel {
-    type IntoIter = PixelIter;
+    type IntoIter = IntoIter;
     type Item = u16;
 
     fn into_iter(self) -> Self::IntoIter {
-        PixelIter{pixel: self, curr: 0}
+        IntoIter {pixel: self, curr: 0}
     }
 }
 

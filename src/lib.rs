@@ -6,12 +6,12 @@
 extern crate byteorder;
 extern crate test;
 
-mod pixel;
 mod parser;
 mod farbfeld;
 pub mod error;
+pub mod pixel;
 
-pub use self::pixel::{Pixel, PixelIter, PixelRefIter};
+pub use self::pixel::Pixel;
 pub use self::farbfeld::Farbfeld;
 
 
