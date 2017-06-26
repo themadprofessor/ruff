@@ -1,5 +1,5 @@
 use std::path::Path;
-use std::io::{Read, BufReader, Write};
+use std::io::{Read, BufReader, Write, BufWriter};
 use std::fs::File;
 
 use byteorder::{WriteBytesExt, BigEndian};
@@ -128,6 +128,27 @@ impl Farbfeld {
             })
             .map(|_| ())
             .map_err(|err| Error::from(ErrorKind::IoError(err)))
+    }
+
+    /// Writes the image to the file at the given path according to the
+    /// [spec](http://tools.suckless.org/farbfeld/). The File is created if it doesn't exist or
+    /// truncated if it does, as defined by
+    /// [File::create](https://doc.rust-lang.org/nightly/std/fs/struct.File.html#method.create)
+    ///
+    /// # Errors
+    /// <ul>
+    ///     <li> Returns an <a href="error/enum.ErrorKind.html">IoError</a> if the write produces an
+    ///     std IoError during write.</li>
+    /// </ul>
+    pub fn save_to_file<T: AsRef<Path>>(&self, path: T) -> Result<()> {
+        File::create(path)
+            .map(BufWriter::new)
+            .map_err(|err| Error::from(ErrorKind::IoError(err)))
+            .and_then(|mut w| Farbfeld::save(self, &mut w)
+                .and_then(|_| w.flush()
+                    .map_err(|err| Error::from(ErrorKind::IoError(err)))
+                )
+            )
     }
 }
 
