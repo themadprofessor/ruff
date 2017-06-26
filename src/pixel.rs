@@ -1,7 +1,7 @@
 use std::iter::{ExactSizeIterator, FusedIterator};
 
-use nom::{be_u16, IResult};
-
+/// A single pixel in a Farbfeld image as defined by the [spec](http://tools.suckless.org/farbfeld/)
+/// by Suckless.
 #[derive(Debug, Default, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Pixel {
     red: u16,
@@ -10,12 +10,39 @@ pub struct Pixel {
     alpha: u16
 }
 
+/// A consuming iterator implementation for [Pixel](struct.Pixel.html). It produces the red, green,
+/// blue then alpha values of a pixel in that order, then returns None.
+///
+/// # Examples
+/// ```
+/// # use ::ruff::*;
+/// let iter = Pixel::new(1_u16, 2_u16, 3_u16, 4_u16).into_iter();
+///
+/// assert_eq!(Some(&10_u16), iter.next());
+/// assert_eq!(Some(&20_u16), iter.next());
+/// assert_eq!(Some(&30_u16), iter.next());
+/// assert_eq!(Some(&40_u16), iter.next());
+/// assert_eq!(None, iter.next());
+/// ```
 #[derive(Debug, Clone)]
 pub struct PixelIter {
     pixel: Pixel,
     curr: u8
 }
 
+/// A non-consuming iterator implementation for [Pixel](struct.Pixel.html). It produces a reference
+/// to the red, green, blue then alpha values of a pixel, then returns None.
+///
+/// # Examples
+/// ```
+/// # use ::ruff::*;
+/// let iter = Pixel::new(1_u16, 2_u16, 3_u16, 4_u16).into_iter();
+///
+/// assert_eq!(Some(10_u16), iter.next());
+/// assert_eq!(Some(20_u16), iter.next());
+/// assert_eq!(Some(30_u16), iter.next());
+/// assert_eq!(Some(40_u16), iter.next());
+/// assert_eq!(None, iter.next());
 #[derive(Debug, Clone)]
 pub struct PixelRefIter<'a> {
     pixel: &'a Pixel,
@@ -23,6 +50,7 @@ pub struct PixelRefIter<'a> {
 }
 
 impl Pixel {
+    /// Creates a new Pixel.
     pub fn new<T>(red: T, green: T, blue: T, alpha: T) -> Pixel where T: Into<u16> {
         Pixel {
             red: red.into(),
@@ -32,40 +60,50 @@ impl Pixel {
         }
     }
 
+    /// Returns a reference to the red component of this pixel.
     pub fn red(&self) -> &u16 {
         &self.red
     }
 
+    /// Returns a reference to the green component of this pixel.
     pub fn green(&self) -> &u16 {
         &self.green
     }
 
+    /// Returns a reference to the blue component of this pixel.
     pub fn blue(&self) -> &u16 {
         &self.blue
     }
 
+    /// Returns a reference to the alpha component of this pixel.
     pub fn alpha(&self) -> &u16 {
         &self.alpha
     }
 
+    /// Returns a mutable reference to the red component of this pixel.
     pub fn red_mut(&mut self) -> &mut u16 {
         &mut self.red
     }
 
+    /// Returns a mutable reference to the greeen component of this pixel.
     pub fn green_mut(&mut self) -> &mut u16 {
         &mut self.green
     }
 
+    /// Returns a mutable reference to the blue component of this pixel.
     pub fn blue_mut(&mut self) -> &mut u16 {
         &mut self.blue
     }
 
+    /// Returns a mutable reference to the alpha component of this pixel.
     pub fn alpha_mut(&mut self) -> &mut u16 {
         &mut self.alpha
     }
 
+    /// Creates an iterator over a reference to the slice. The iterator produces a reference to the
+    /// red, green, blue then alpha component of this pixel, then returns None.
     pub fn iter(&self) -> PixelRefIter {
-        PixelRefIter{pixel: &self, curr: 0}
+        PixelRefIter{pixel: self, curr: 0}
     }
 }
 
@@ -77,6 +115,12 @@ impl From<[u16; 4]> for Pixel {
             blue: i[2],
             alpha: i[3]
         }
+    }
+}
+
+impl Into<[u16; 4]> for Pixel {
+    fn into(self) -> [u16; 4] {
+        [self.red, self.green, self.blue, self.alpha]
     }
 }
 

@@ -1,19 +1,20 @@
 <component name="libraryTable">
   <library name="Cargo &lt;ruff&gt;">
     <CLASSES>
-      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/winapi-build-0.1.1" />
-      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/dbghelp-sys-0.2.0" />
-      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/rustc-demangle-0.1.4" />
-      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/memchr-1.0.1" />
-      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/gcc-0.3.51" />
-      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/error-chain-0.10.0" />
-      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/backtrace-0.3.2" />
       <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/winapi-0.2.8" />
-      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/backtrace-sys-0.1.11" />
-      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.24" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/memchr-1.0.1" />
       <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/nom-3.1.0" />
-      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/cfg-if-0.1.1" />
       <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/kernel32-sys-0.2.2" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/winapi-build-0.1.1" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/backtrace-0.3.2" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/dbghelp-sys-0.2.0" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/libc-0.2.24" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/error-chain-0.10.0" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/cfg-if-0.1.1" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/backtrace-sys-0.1.11" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/byteorder-1.0.0" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/gcc-0.3.51" />
+      <root url="file://$USER_HOME$/.cargo/registry/src/github.com-1ecc6299db9ec823/rustc-demangle-0.1.4" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
