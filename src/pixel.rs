@@ -184,13 +184,10 @@ impl IntoIterator for Pixel {
 
 #[cfg(test)]
 mod test {
-    extern crate test;
     use super::*;
 
-    use test::Bencher;
-
     #[test]
-    fn test_parse() {
+    fn test_from() {
         assert_eq!(Pixel::from([10_u16, 20_u16, 30_u16, 40_u16]),
             Pixel::new(10_u16, 20_u16, 30_u16, 40_u16));
     }
