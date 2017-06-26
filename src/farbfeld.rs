@@ -10,6 +10,7 @@ use parser;
 
 /// A Farbfeld image as defined by the [spec](http://tools.suckless.org/farbfeld/) by Suckless.
 #[derive(Debug)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Farbfeld {
     pixels: Vec<Pixel>,
     width: u32,

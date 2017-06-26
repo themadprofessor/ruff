@@ -7,3 +7,4 @@ authors = ["Stuart Reilly <stu@reilly-family.co.uk>"]
 error-chain = "*"
 nom = "*"
 byteorder = "*"
+serde = { version = "*", optional = true, features = ["derive"]}

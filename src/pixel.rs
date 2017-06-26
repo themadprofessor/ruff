@@ -1,8 +1,11 @@
+//! Pixels within a Farbfeld image as defined by the [spec](http://tools.suckless.org/farbfeld/).
+
 use std::iter::{ExactSizeIterator, FusedIterator};
 
 /// A single pixel in a Farbfeld image as defined by the [spec](http://tools.suckless.org/farbfeld/)
 /// by Suckless.
 #[derive(Debug, Default, PartialEq, Eq, Hash, Clone, Copy)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Pixel {
     red: u16,
     green: u16,
@@ -16,12 +19,12 @@ pub struct Pixel {
 /// # Examples
 /// ```
 /// # use ::ruff::*;
-/// let iter = Pixel::new(1_u16, 2_u16, 3_u16, 4_u16).into_iter();
+/// let mut iter = Pixel::new(10_u16, 20_u16, 30_u16, 40_u16).into_iter();
 ///
-/// assert_eq!(Some(&10_u16), iter.next());
-/// assert_eq!(Some(&20_u16), iter.next());
-/// assert_eq!(Some(&30_u16), iter.next());
-/// assert_eq!(Some(&40_u16), iter.next());
+/// assert_eq!(Some(10_u16), iter.next());
+/// assert_eq!(Some(20_u16), iter.next());
+/// assert_eq!(Some(30_u16), iter.next());
+/// assert_eq!(Some(40_u16), iter.next());
 /// assert_eq!(None, iter.next());
 /// ```
 #[derive(Debug, Clone)]
@@ -36,13 +39,15 @@ pub struct IntoIter {
 /// # Examples
 /// ```
 /// # use ::ruff::*;
-/// let iter = Pixel::new(1_u16, 2_u16, 3_u16, 4_u16).into_iter();
+/// let pixel = Pixel::new(10_u16, 20_u16, 30_u16, 40_u16);
+/// let mut iter = pixel.iter();
 ///
-/// assert_eq!(Some(10_u16), iter.next());
-/// assert_eq!(Some(20_u16), iter.next());
-/// assert_eq!(Some(30_u16), iter.next());
-/// assert_eq!(Some(40_u16), iter.next());
+/// assert_eq!(Some(&10_u16), iter.next());
+/// assert_eq!(Some(&20_u16), iter.next());
+/// assert_eq!(Some(&30_u16), iter.next());
+/// assert_eq!(Some(&40_u16), iter.next());
 /// assert_eq!(None, iter.next());
+/// ```
 #[derive(Debug, Clone)]
 pub struct Iter<'a> {
     pixel: &'a Pixel,
@@ -188,28 +193,5 @@ mod test {
     fn test_parse() {
         assert_eq!(Pixel::from([10_u16, 20_u16, 30_u16, 40_u16]),
             Pixel::new(10_u16, 20_u16, 30_u16, 40_u16));
-    }
-
-    #[test]
-    fn test_into_iter() {
-        let mut iter = Pixel{red: 10_u16, green: 20_u16, blue: 30_u16, alpha: 40_u16}.into_iter();
-
-        assert_eq!(Some(10_u16), iter.next());
-        assert_eq!(Some(20_u16), iter.next());
-        assert_eq!(Some(30_u16), iter.next());
-        assert_eq!(Some(40_u16), iter.next());
-        assert_eq!(None, iter.next());
-    }
-
-    #[test]
-    fn test_iter() {
-        let pixel = Pixel{red: 10_u16, green: 20_u16, blue: 30_u16, alpha: 40_u16};
-        let mut iter = pixel.iter();
-
-        assert_eq!(Some(&10_u16), iter.next());
-        assert_eq!(Some(&20_u16), iter.next());
-        assert_eq!(Some(&30_u16), iter.next());
-        assert_eq!(Some(&40_u16), iter.next());
-        assert_eq!(None, iter.next());
     }
 }
