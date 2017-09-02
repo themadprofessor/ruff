@@ -1,6 +1,7 @@
 use std::path::Path;
 use std::io::{Read, BufReader, Write, BufWriter};
 use std::fs::File;
+use std::ops::{Index, IndexMut, RangeFull, RangeFrom, RangeTo, Range};
 
 use byteorder::{WriteBytesExt, BigEndian};
 
@@ -153,14 +154,101 @@ impl Farbfeld {
     }
 }
 
+impl Index<usize> for Farbfeld {
+    type Output = Pixel;
+
+    fn index(&self, index: usize) -> &Self::Output {
+        &self.pixels[index]
+    }
+}
+
+impl Index<RangeFull> for Farbfeld {
+    type Output = [Pixel];
+
+    fn index(&self, _: RangeFull) -> &Self::Output {
+        &self.pixels
+    }
+}
+
+impl Index<RangeFrom<usize>> for Farbfeld {
+    type Output = [Pixel];
+
+    fn index(&self, index: RangeFrom<usize>) -> &Self::Output {
+        &self.pixels[index]
+    }
+}
+
+impl Index<RangeTo<usize>> for Farbfeld {
+    type Output = [Pixel];
+
+    fn index(&self, index: RangeTo<usize>) -> &Self::Output {
+        &self.pixels[index]
+    }
+}
+
+impl Index<Range<usize>> for Farbfeld {
+    type Output = [Pixel];
+
+    fn index(&self, index: Range<usize>) -> &Self::Output {
+        &self.pixels[index]
+    }
+}
+
+impl IndexMut<usize> for Farbfeld {
+    fn index_mut(&mut self, index: usize) -> &mut Self::Output {
+        &mut self.pixels[index]
+    }
+}
+
+impl IndexMut<RangeFull> for Farbfeld {
+    fn index_mut(&mut self, _: RangeFull) -> &mut Self::Output {
+        &mut self.pixels
+    }
+}
+
+impl IndexMut<RangeTo<usize>> for Farbfeld {
+    fn index_mut(&mut self, index: RangeTo<usize>) -> &mut Self::Output {
+        &mut self.pixels[index]
+    }
+}
+
+impl IndexMut<RangeFrom<usize>> for Farbfeld {
+    fn index_mut(&mut self, index: RangeFrom<usize>) -> &mut Self::Output {
+        &mut self.pixels[index]
+    }
+}
+
+impl IndexMut<Range<usize>> for Farbfeld {
+    fn index_mut(&mut self, index: Range<usize>) -> &mut Self::Output {
+        &mut self.pixels[index]
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    use std::env;
 
     use test::Bencher;
 
     #[bench]
     fn bench_from_file(b: &mut Bencher) {
         b.iter(|| Farbfeld::from_file("test.ff").unwrap())
+    }
+
+    #[test]
+    fn test_save_from_eq() {
+        let mut test_file = env::temp_dir();
+        test_file.push("test.ff");
+        Farbfeld::from_file("test.ff").unwrap()
+            .save_to_file(&test_file).unwrap();
+
+        let mut org = Vec::new();
+        let mut test = Vec::new();
+
+        File::open("test.ff").unwrap().read_to_end(&mut org).unwrap();
+        File::open(&test_file).unwrap().read_to_end(&mut test).unwrap();
+        assert_eq!(org, test);
     }
 }
